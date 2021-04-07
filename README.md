@@ -2,17 +2,13 @@
 
 ## About The Project
 
-This project is about building a Demand Forecast model using either Google Analytics data or Order data from backend system.
+This project is about building a Demand Forecast model using either python libraries or BigQuery ML. The data is taken from Google Analytics database and is using SARIMA modelling to predict future orders. The code is written in a modular way and can be applied to any demand forecasting use case e.g. trends of a disease, stock performance, population growth etc. Just add your own data source and follow the steps in the notebook. 
 
-The aim is to build a model that will show the next 30 day demand for each country and business source.
+Note: The code outputs interactive graphs of predicted vs. actual numbers that are not displayed on github. To fully visualize the results, please run the code on your environment.
 
-This should be something that can be deployed on a dashboard using Tableau or Google Data Studio. 
+The model will show the next 30 day demand for each country and can be deployed on a dashboard using Tableau or Google Data Studio. 
 
-**Limitations**
 
-- It only will present countries and business sources with more than 999 daily values.
-- Some countries do not have any data so those results will not be presented
-- It is not real time model it does daily refreshes of the results. 
 ### Built With
 
 This solution uses the following technologies
@@ -81,7 +77,7 @@ This will be done via a Data Studio dashboard
 
 
 ### Building from the template notebook 
-Inside the the **sarima** folder there is a notebook called **sarima.ipynb** This notebook will serve as a template for all forecasting projects involving Google Analytics or online store data. 
+Inside the the **sarima** folder there is a notebook called **sarima_template.ipynb** This notebook will serve as a template for all forecasting projects involving Google Analytics or online store data. 
 
 The first step is to set the **install_dependencies** variable as True. By default it is False.
 
@@ -99,12 +95,9 @@ Then set up the environment variables to match for your project.
 The second step is to set up your queries. In the **sql** folder all the queries will be placed in there.
 
 * ga_orders.sql - Only uses Google Analytics data and serves as the template SQL
-* order_shipment.sql - Only uses store data and serves as the template SQL 
-* all_countries/ - Contains queries for business_source and country work. 
-* bqml/ - BigQuery Machine Learning queries.
+* sql/ - BigQuery Machine Learning SQL queries.
 
 
-For the production ready work, the code located in the **sql/all_countries** folder. The rest of the code is meant to be a template for any forecasting solution. 
 
 #### Google Analytics Query Instruction
 
@@ -115,22 +108,6 @@ For example if you want to forecast from February 01,2021 until February 28, 202
 start_date = 2021-01-01
 end_date = 2021-02-01
 
-#### Order Shipments Query Instruction
-
-There are two parameters here that need to be entered the @start_date and @end_date. 
-
-For example if you want to forecast from February 01,2021 until February 28, 2021 your start_date and end_date need the last 30 days. 
-
-start_date = 2021-01-01
-end_date = 2021-01-30
-
-## Flash Report Demand Forecast
-
-All queries for this report are located in **all_countries/rollup_property** folder. 
-
-There is the query to collect the training data. It is called "b_source_training_data.sql". This data comes from the Google Analytics View "04 - User ID View (All Platforms) - Live - 04/01/2019" and View ID "187122594". 
-
-This view is used because it is the same view used for the flash report. Which is the business facing report.
 
 And there is a folder called **bqml**. This folder contains all the queries for creating, forecasting and saving the results to BigQuery. 
 
@@ -139,16 +116,6 @@ Here there are 3 queries
 * b_source_create_model.sql - Creates the model or models depending on the number of countries
 * b_source_eval_real_vs_preds.sql - Evaluates the model results against the real results
 * b_source_forecast.sql - Forecasts the real results
-
-## Automating results
-
-Every day at 1330 at GMT+4 a new forecast will be generated. The reason for this is because the GA_SESSIONS table won't update until 1230 GMT +4 
-
-This will execute from a cron job located inside this VM called [demand-forecast](https://console.cloud.google.com/compute/instancesDetail/zones/us-central1-a/instances/demand-forecast?project=carrefour-main-account-221808)
-
-The cronjob will execute the Python file all_countries_user_id.py.
-
-Please follow these instructions to know how to amend a cronjob: [Link](https://help.dreamhost.com/hc/en-us/articles/215767047-Creating-a-custom-Cron-Job)
 
 
 ## Contributing
@@ -159,15 +126,3 @@ Please follow these instructions to know how to amend a cronjob: [Link](https://
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-
-## License
-
-PENDING
-
-
-## Contact
-
-Francisco Quintana - [Email](fquintana@mafcarrefour.com) - fquintana@mafcarrefour.com
-
-
-Qurat Ul Ain  - [Email](qain@mafcarrefour.com) - qain@mafcarrefour.com

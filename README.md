@@ -71,7 +71,6 @@ This will be done via a Data Studio dashboard
 
 [Data Studio Link]: (https://datastudio.google.com/reporting/712ce595-a4c1-48b5-aa85-24268902739b)
 
-![Diagram](images/demand_forecast.png)
 
 ## How it works
 
